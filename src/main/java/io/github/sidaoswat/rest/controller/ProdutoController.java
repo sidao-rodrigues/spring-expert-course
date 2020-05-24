@@ -19,7 +19,6 @@ public class ProdutoController {
     private Produtos produtos;
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Produto getProdutoById(@PathVariable("id") Integer id){
         return produtos.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado."));
