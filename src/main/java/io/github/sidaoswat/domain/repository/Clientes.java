@@ -1,4 +1,4 @@
-package io.github.sidaoswat.domain.repositorio;
+package io.github.sidaoswat.domain.repository;
 
 import io.github.sidaoswat.domain.entity.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;

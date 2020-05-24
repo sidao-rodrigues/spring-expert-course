@@ -1,7 +1,7 @@
 package io.github.sidaoswat;
 
 import io.github.sidaoswat.domain.entity.Cliente;
-import io.github.sidaoswat.domain.repositorio.Clientes;
+import io.github.sidaoswat.domain.repository.Clientes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
