@@ -1,6 +1,7 @@
 package io.github.sidaoswat.domain.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity //essa anotação servirá para ser escaneada pelo JPA e registrar essa entidade(classe) como uma tabela no banco de dados
 @Table(name = "cliente")//, schema = "vendas") //essa anotação é para o caso a tabela do bd seja diferente do nome da classe
@@ -14,7 +15,18 @@ public class Cliente {
     @Column(name = "nome", length = 100)
     private String nome;
 
+    @OneToMany(mappedBy = "cliente") //é mapeado com o atributo em pedido de cliente
+    private Set<Pedido> pedidos;
+
     public Cliente(){
+    }
+
+    public Set<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(Set<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
     public Cliente(String nome){
