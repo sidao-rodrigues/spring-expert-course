@@ -15,7 +15,7 @@ public class Cliente {
     @Column(name = "nome", length = 100)
     private String nome;
 
-    @OneToMany(mappedBy = "cliente") //é mapeado com o atributo em pedido de cliente
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY) //é mapeado com o atributo em pedido de cliente
     private Set<Pedido> pedidos;
 
     public Cliente(){

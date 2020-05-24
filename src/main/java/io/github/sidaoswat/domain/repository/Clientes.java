@@ -13,12 +13,15 @@ public interface Clientes extends JpaRepository<Cliente, Integer> {
 
     @Query(value = " select cli from Cliente cli where cli.nome like :nome ")//pode ser com SQL(nativeQuery=true) ou HQL
     List<Cliente> encontrarPorNome( @Param("nome") String nome );
-    //List<Cliente> findByNomeLike(String nome);
 
     @Query(" delete from Cliente cli where cli.nome =:nome")
     @Modifying
     void deleteByNome(String nome);
 
+    @Query(" select cli from Cliente cli left join fetch cli.pedidos where cli.id = :id")
+    Cliente findClienteFetchPedidos(@Param("id") Integer id);
+
+    //List<Cliente> findByNomeLike(String nome);
     //List<Cliente> findByNomeOrIdOrderById(String nome, Integer id);
     //Cliente findOneById(Integer id); //bom exemplo para cpf
     //boolean existsByNome(String nome);
