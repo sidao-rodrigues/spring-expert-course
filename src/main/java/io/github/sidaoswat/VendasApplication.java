@@ -18,11 +18,12 @@ public class VendasApplication {
         return args -> {
             System.out.println("Save");
             clientes.salvar(new Cliente("Sidão"));
-            clientes.salvar(new Cliente("Sidney"));
+            clientes.salvar(new Cliente("Sidney Rodrigues"));
 
             List<Cliente> todosClientes = clientes.obterTodos();
             todosClientes.forEach(System.out::println);
 
+            /*
             System.out.println("update");
             todosClientes.forEach(c -> {
                 c.setNome(c.getNome() + " att");
@@ -39,13 +40,13 @@ public class VendasApplication {
             /*clientes.obterTodos().forEach(c -> {
                 clientes.deletar(c);
             });*/
-
+            /*
             todosClientes = clientes.obterTodos();
             if(todosClientes.isEmpty()) {
                 System.out.println("nenhum cliente encontrado!");
             } else {
                 todosClientes.forEach(System.out::println);
-            }
+            }*/
         };
     }
 
