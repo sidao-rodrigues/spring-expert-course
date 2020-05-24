@@ -20,33 +20,9 @@ public class VendasApplication {
             clientes.save(new Cliente("Sidão"));
             clientes.save(new Cliente("Sidney Rodrigues"));
 
-            List<Cliente> todosClientes = clientes.findAll();
+            List<Cliente> todosClientes = clientes.encontrarPorNome("S");
             todosClientes.forEach(System.out::println);
 
-
-            System.out.println("update");
-            todosClientes.forEach(c -> {
-                c.setNome(c.getNome() + " att");
-                clientes.save(c);
-            });
-
-            todosClientes = clientes.findAll();
-            todosClientes.forEach(System.out::println);
-
-            System.out.println("search");
-            clientes.findByNomeLike("ney").forEach(System.out::println);
-
-            System.out.println("delete");
-            clientes.findAll().forEach(c -> {
-                clientes.delete(c);
-            });
-
-            todosClientes = clientes.findAll();
-            if(todosClientes.isEmpty()) {
-                System.out.println("nenhum cliente encontrado!");
-            } else {
-                todosClientes.forEach(System.out::println);
-            }
         };
     }
 
