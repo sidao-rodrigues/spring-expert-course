@@ -1,19 +1,37 @@
 package io.github.sidaoswat.rest.controller;
 
+import io.github.sidaoswat.domain.entity.Cliente;
+import io.github.sidaoswat.domain.repository.Clientes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/clientes")
 public class ClienteController {
 
-    @RequestMapping(value = "/hello/{nome}", method = RequestMethod.GET)
+    @Autowired
+    private Clientes clientes;
+
+    @GetMapping("/{id}")
     @ResponseBody
-    public String helloCliente(@PathVariable("nome") String nomeCliente){
-        return String.format("Hello %s", nomeCliente);
+    public ResponseEntity<Cliente> getClienteById(@PathVariable("id") Integer id){
+        Optional<Cliente> cliente = clientes.findById(id);
+
+        if(cliente.isPresent()) {
+            return ResponseEntity.ok(cliente.get());//retorna o cliente e o código status ok
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<Cliente> save(@RequestBody Cliente cliente){
+        Cliente clienteSalvo = clientes.save(cliente);
+        return ResponseEntity.ok(clienteSalvo);
     }
 
 }
