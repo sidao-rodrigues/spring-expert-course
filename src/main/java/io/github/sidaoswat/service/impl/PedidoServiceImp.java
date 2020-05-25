@@ -9,11 +9,11 @@ import io.github.sidaoswat.domain.repository.Clientes;
 import io.github.sidaoswat.domain.repository.ItensPedido;
 import io.github.sidaoswat.domain.repository.Pedidos;
 import io.github.sidaoswat.domain.repository.Produtos;
+import io.github.sidaoswat.exception.PedidoNaoEncontradoException;
 import io.github.sidaoswat.exception.RegraNegocioException;
 import io.github.sidaoswat.rest.dto.ItemPedidoDTO;
 import io.github.sidaoswat.rest.dto.PedidoDTO;
 import io.github.sidaoswat.service.PedidoService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +63,16 @@ public class PedidoServiceImp implements PedidoService {
     @Override
     public Optional<Pedido> obterPedidoCompleto(Integer id) {
         return repository.findByIdFetchItens(id);
+    }
+
+    @Override
+    @Transactional
+    public void atualizarStatus(Integer id, StatusPedido statusPedido) {
+        repository.findById(id)
+                .map(pedido -> {
+                    pedido.setStatus(statusPedido);
+                    return repository.save(pedido);
+                }).orElseThrow(() -> new PedidoNaoEncontradoException());
     }
 
     private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> items){

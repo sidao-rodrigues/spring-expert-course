@@ -1,5 +1,6 @@
 package io.github.sidaoswat.rest.controller;
 
+import io.github.sidaoswat.exception.PedidoNaoEncontradoException;
 import io.github.sidaoswat.exception.RegraNegocioException;
 import io.github.sidaoswat.rest.ApiErros;
 import org.springframework.http.HttpStatus;
@@ -16,5 +17,12 @@ public class ApplicationControllerAdvice {
         String msgErro = exception.getMessage();
         return new ApiErros(msgErro);
     }
+
+    @ExceptionHandler(PedidoNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErros handlePedidoNotFoundException(PedidoNaoEncontradoException ex){
+        return new ApiErros(ex.getMessage());
+    }
+
 
 }

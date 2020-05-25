@@ -2,6 +2,8 @@ package io.github.sidaoswat.rest.controller;
 
 import io.github.sidaoswat.domain.entity.ItemPedido;
 import io.github.sidaoswat.domain.entity.Pedido;
+import io.github.sidaoswat.domain.enums.StatusPedido;
+import io.github.sidaoswat.rest.dto.AtualizacaoStatusPedidoDTO;
 import io.github.sidaoswat.rest.dto.InformacaoItemPedidoDTO;
 import io.github.sidaoswat.rest.dto.InformacoesPedidoDTO;
 import io.github.sidaoswat.rest.dto.PedidoDTO;
@@ -16,8 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -33,11 +34,18 @@ public class PedidoController {
         return pedido.getId();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public InformacoesPedidoDTO getById(@PathVariable("id") Integer id){
         return service.obterPedidoCompleto(id)
                 .map(pedido -> converter(pedido))
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Pedido não encontrado."));
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
+    public void updateStatus(@PathVariable("id") Integer id, @RequestBody AtualizacaoStatusPedidoDTO dto){
+        String novoStatus = dto.getNovoStatus();
+        service.atualizarStatus(id, StatusPedido.valueOf(novoStatus));
     }
 
     private InformacoesPedidoDTO converter(Pedido pedido){
