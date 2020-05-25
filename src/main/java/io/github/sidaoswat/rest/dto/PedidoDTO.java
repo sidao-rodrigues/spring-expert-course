@@ -1,5 +1,6 @@
 package io.github.sidaoswat.rest.dto;
 
+import io.github.sidaoswat.validation.NotEmptyList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,10 +14,13 @@ import java.util.List;
 @Data
 public class PedidoDTO {
 
-    @NotNull(message = "Informe o código do cliente.")
+    @NotNull(message = "{campo.codigo-cliente.obrigatorio}")
     private Integer cliente;
-    @NotNull(message = "Campo Total do pedido é obrigatório.")
+
+    @NotNull(message = "{campo.total-pedido.obrigatorio}")
     private BigDecimal total;
+
+    @NotEmptyList(message = "{campo.items-pedido.obrigatorio}")
     private List<ItemPedidoDTO> items;
 
 }
