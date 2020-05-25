@@ -12,15 +12,18 @@ import io.github.sidaoswat.exception.RegraNegocioException;
 import io.github.sidaoswat.rest.dto.ItemPedidoDTO;
 import io.github.sidaoswat.rest.dto.PedidoDTO;
 import io.github.sidaoswat.service.PedidoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+//@RequiredArgsConstructor
 public class PedidoServiceImp implements PedidoService {
 
     @Autowired
@@ -51,8 +54,13 @@ public class PedidoServiceImp implements PedidoService {
         List<ItemPedido> itemPedidos = converterItems(pedido, dto.getItems());
         repository.save(pedido);
         itensPedidoRepository.saveAll(itemPedidos);
-        pedido.setItensPedidos(itemPedidos);
+        pedido.setItens(itemPedidos);
         return pedido;
+    }
+
+    @Override
+    public Optional<Pedido> obterPedidoCompleto(Integer id) {
+        return repository.findByIdFetchItens(id);
     }
 
     private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> items){
