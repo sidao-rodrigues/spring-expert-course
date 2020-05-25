@@ -4,6 +4,7 @@ import io.github.sidaoswat.domain.entity.Cliente;
 import io.github.sidaoswat.domain.entity.ItemPedido;
 import io.github.sidaoswat.domain.entity.Pedido;
 import io.github.sidaoswat.domain.entity.Produto;
+import io.github.sidaoswat.domain.enums.StatusPedido;
 import io.github.sidaoswat.domain.repository.Clientes;
 import io.github.sidaoswat.domain.repository.ItensPedido;
 import io.github.sidaoswat.domain.repository.Pedidos;
@@ -50,6 +51,7 @@ public class PedidoServiceImp implements PedidoService {
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
 
         List<ItemPedido> itemPedidos = converterItems(pedido, dto.getItems());
         repository.save(pedido);
