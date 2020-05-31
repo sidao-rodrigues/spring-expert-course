@@ -30,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }*/
     //}
 
+    /*metodo para configuração de autenticação*/
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
@@ -39,8 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("USER");
     }
 
+    /*metodo para configração de acesso as rotas do usuário autenticado*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http.csrf().disable() //o csrf serve para que haja um segurança em backend e frontend
+                .authorizeRequests()
+                .antMatchers("/api/clientes/**").authenticated()//antMatchers possibilita vários tipos de acesso
+                .and().formLogin();//utiliza já a tela criada, ou então pode-se criar já um formulário de login como parametro "/login.html"
+
     }
 }
