@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder())
                 .withUser("sidao")
                 .password(passwordEncoder().encode("123"))
-                .roles("USER");
+                .roles("USER", "ADMIN");
     }
 
     /*metodo para configração de acesso as rotas do usuário autenticado*/
@@ -45,7 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() //o csrf serve para que haja um segurança em backend e frontend
                 .authorizeRequests()
-                .antMatchers("/api/clientes/**").authenticated()//antMatchers possibilita vários tipos de acesso
+                .antMatchers("/api/clientes/**")//antMatchers possibilita vários tipos de acesso
+                    .hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/pedidos/**")
+                    .hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/produtos/**")
+                    .hasRole("ADMIN")
                 .and().formLogin();//utiliza já a tela criada, ou então pode-se criar já um formulário de login como parametro "/login.html"
 
     }
