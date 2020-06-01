@@ -1,4 +1,4 @@
-package io.github.sidaoswat;
+package io.github.sidaoswat.security.jwt;
 
 import io.github.sidaoswat.domain.entity.Usuario;
 import io.jsonwebtoken.Claims;
