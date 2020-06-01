@@ -51,7 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/produtos/**")
                     .hasRole("ADMIN")
-                .and().formLogin();//utiliza já a tela criada, ou então pode-se criar já um formulário de login como parametro "/login.html"
+                .and()
+                    //.formLogin();//utiliza já a tela criada, ou então pode-se criar já um formulário de login como parametro "/login.html"
+                    .httpBasic(); //passa as informaçãoes por requisições headers
 
     }
 }
