@@ -1,5 +1,7 @@
 package io.github.sidaoswat.config;
 
+import io.github.sidaoswat.service.impl.UsuarioServiceImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    public UsuarioServiceImp usuarioService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -33,11 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /*metodo para configuração de autenticação*/
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
+        auth.userDetailsService(usuarioService).passwordEncoder(passwordEncoder());
+
+        /*deixando usuário em memória*/
+        /*auth.inMemoryAuthentication()
                 .passwordEncoder(passwordEncoder())
                 .withUser("sidao")
                 .password(passwordEncoder().encode("123"))
-                .roles("USER", "ADMIN");
+                .roles("USER", "ADMIN");*/
     }
 
     /*metodo para configração de acesso as rotas do usuário autenticado*/
