@@ -3,6 +3,7 @@ package io.github.sidaoswat.config;
 import io.github.sidaoswat.service.impl.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -59,6 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/produtos/**")
                     .hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/usuarios/**")
+                    .permitAll()
+                .anyRequest().authenticated()
                 .and()
                     //.formLogin();//utiliza já a tela criada, ou então pode-se criar já um formulário de login como parametro "/login.html"
                     .httpBasic(); //passa as informaçãoes por requisições headers
