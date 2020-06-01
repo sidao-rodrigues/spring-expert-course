@@ -32,10 +32,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String authorization = httpServletRequest.getHeader("Authorization");
 
+
         if(authorization != null && authorization.startsWith("Bearer")){
             String token = authorization.split(" ")[1];
             boolean isValid = jwtService.tokenValido(token);
-
+            System.out.println("is valid? "+isValid);
             if(isValid){
                 String loginUsuario = jwtService.obterLoginUsuario(token);
                 UserDetails usuario = usuarioServiceImp.loadUserByUsername(loginUsuario);
